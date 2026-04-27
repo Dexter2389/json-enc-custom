@@ -1,24 +1,27 @@
 # json-enc-custom
 
-This is a [custom extension](https://github.com/bigskysoftware/htmx-extensions/tree/main?tab=readme-ov-file#defining-an-extension) for [htmx](https://htmx.org/), it takes the parameters from `encodeParameters`, and parse the names of the forms like the examples below.
+This is a [custom extension](https://github.com/bigskysoftware/htmx-extensions/tree/main?tab=readme-ov-file#defining-an-extension) for [htmx v4](https://four.htmx.org/), it takes the parameters from `encodeParameters`, and parse the names of the forms like the examples below.
 Reference: [W3C HTML JSON form submission](https://www.w3.org/TR/html-json-forms/).
+
+> [!WARNING]
+> **This is the htmx v4 branch.** htmx v4 is currently in beta and its extension API may change. This branch will remain separate from `main` for the foreseeable future. If you are using htmx v2, please refer to the [`main` branch](../../tree/main) instead.
 
 ## Install
 
 #### Regular
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@main/json-enc-custom.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@htmx-v4/json-enc-custom.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.7/json-enc-custom.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.0/json-enc-custom.js"></script>
 ```
 
 #### Minified (roughly half the size)
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@main/jec.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@htmx-v4/jec.min.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.7/jec.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.0/jec.min.js"></script>
 ```
 
 ## Examples
@@ -29,7 +32,7 @@ By default, the JSON sent uses the browser's form-encoding convention, which mea
 
 ```html
 EXAMPLE 1: Basic Keys
-<form hx-ext='json-enc-custom' parse-types="false">
+<form parse-types="false">
   <input name='name' value='Bender'>
   <select name='hind'>
     <option selected>Bitable</option>
@@ -55,7 +58,7 @@ NOTES: Unchecked inputs are ignored; this is due to how HTMX and browsers behave
 ```
 ```html
 EXAMPLE 2: Multiple Values
-<form hx-ext='json-enc-custom' parse-types="true">
+<form parse-types="true">
   <input type='number' name='bottle-on-wall' value='1'>
   <input type='number' name='bottle-on-wall' value='2'>
   <input type='number' name='bottle-on-wall' value='3'>
@@ -72,7 +75,7 @@ EXAMPLE 2: Multiple Values
 ```
 ```html
 EXAMPLE 3: Deeper Structure
-<form hx-ext='json-enc-custom'>
+<form>
   <input name='pet[species]' value='Dahut'>
   <input name='pet[name]' value='Hypatia'>
   <input name='kids[1]' value='Thelma'>
@@ -91,7 +94,7 @@ EXAMPLE 3: Deeper Structure
 
 ```html
 EXAMPLE 4: Sparse Arrays
-<form hx-ext='json-enc-custom'>
+<form>
   <input name='hearbeat[0]' value='thunk'>
   <input name='hearbeat[2]' value='thunk'>
 </form>
@@ -104,7 +107,7 @@ EXAMPLE 4: Sparse Arrays
 
 ```html
 EXAMPLE 5: Even Deeper
-<form hx-ext='json-enc-custom'>
+<form>
   <input name='pet[0][species]' value='Dahut'>
   <input name='pet[0][name]' value='Hypatia'>
   <input name='pet[1][species]' value='Felis Stultus'>
@@ -128,7 +131,7 @@ EXAMPLE 5: Even Deeper
 
 ```html
 EXAMPLE 6: Such Deep
-<form hx-ext='json-enc-custom'>
+<form>
   <input name='wow[such][deep][3][much][power][!]' value='Amaze'>
 </form>
 
@@ -155,7 +158,7 @@ EXAMPLE 6: Such Deep
 
 ```html
 EXAMPLE 7: Number parsing on select 
-<form hx-ext='json-enc-custom'>
+<form>
   <select name="roles[0]" type="number">
     <option value="1" selected>Role 1</option>
     <option value="2">Role 2</option>
@@ -170,7 +173,7 @@ EXAMPLE 7: Number parsing on select
 
 ```html
 EXAMPLE 10: Bad input
-<form hx-ext='json-enc-custom'>
+<form>
   <input name='error[good]' value='BOOM!'>
   <input name='error[bad' value='BOOM BOOM!'>
 </form>
