@@ -1,41 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Tests</title>
+        <title>Tests</title>
 
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-    <script src="json-enc-custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0-beta2/dist/htmx.js"></script>
+        <script src="json-enc-custom.js"></script>
 
-    <script src="test-env/test-env.js"></script>
-    <link rel="stylesheet" href="test-env/styles.css">
-</head>
-<body>
-    <table>
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Test Case</th>
-                <th>Expected Result</th>
-                <th>Actual Result</th>
-                <th>Diff</th>
-            </tr>
-        </thead>
-        <tbody id="test-cases"></tbody>
-    </table>
-    <div id="test-results-container">
-        <h2 id="test-results"></h2>
-    </div>
-    <script>
-        // Specification, referenced in test cases - https://www.w3.org/TR/html-json-forms/
-        const testCases = {
-            1: {
-                desc: "Example 1 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+        <script src="test-env/test-env.js"></script>
+        <link rel="stylesheet" href="test-env/styles.css" />
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Test Case</th>
+                    <th>Expected Result</th>
+                    <th>Actual Result</th>
+                    <th>Diff</th>
+                </tr>
+            </thead>
+            <tbody id="test-cases"></tbody>
+        </table>
+        <div id="test-results-container">
+            <h2 id="test-results"></h2>
+        </div>
+        <script>
+            // Specification, referenced in test cases - https://www.w3.org/TR/html-json-forms/
+            const testCases = {
+                1: {
+                    desc: "Example 1 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="name" value="Bender">
                     <select name="hind">
                         <option selected>Bitable</option>
@@ -44,17 +43,16 @@
                     <input type="checkbox" name="shiny" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "name":"Bender",
                     "hind":"Bitable",
                     "shiny":true
-                }`
-            },
-            2: {
-                desc: "Example 1 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                2: {
+                    desc: "Example 1 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="name" value="Bender">
                     <select name="hind">
                         <option selected>Bitable</option>
@@ -63,52 +61,49 @@
                     <input type="checkbox" name="shiny" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "name":"Bender",
                     "hind":"Bitable",
                     "shiny":"on"
-                }`
-            },
-            3: {
-                desc: "Example 2 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                3: {
+                    desc: "Example 2 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input type="number" name="bottle-on-wall" value="1">
                     <input type="number" name="bottle-on-wall" value="2">
                     <input type="number" name="bottle-on-wall" value="3">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "bottle-on-wall":[1,2,3]
-                }`
-            },
-            4: {
-                desc: "Example 2 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                4: {
+                    desc: "Example 2 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input type="number" name="bottle-on-wall" value="1">
                     <input type="number" name="bottle-on-wall" value="2">
                     <input type="number" name="bottle-on-wall" value="3">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "bottle-on-wall":["1","2","3"]
-                }`
-            },
-            5: {
-                desc: "Example 3 from specification, parse-types=true",
-                form:
-                `
-                    <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                5: {
+                    desc: "Example 3 from specification, parse-types=true",
+                    form: `
+                    <form hx-post="/" parse-types="true">
                         <input name="pet[species]" value="Dahut">
                         <input name="pet[name]" value="Hypatia">
                         <input name="kids[1]" value="Thelma">
                         <input name="kids[0]" value="Ashley">
                     </form>
                 `,
-                expected: `{
+                    expected: `{
                     "pet":{
                         "species":"Dahut",
                         "name":"Hypatia"
@@ -117,20 +112,19 @@
                         "Ashley",
                         "Thelma"
                     ]
-                }`
-            },
-            6: {
-                desc: "Example 3 from specification, parse-types=false",
-                form:
-                `
-                    <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                6: {
+                    desc: "Example 3 from specification, parse-types=false",
+                    form: `
+                    <form hx-post="/" parse-types="false">
                         <input name="pet[species]" value="Dahut">
                         <input name="pet[name]" value="Hypatia">
                         <input name="kids[1]" value="Thelma">
                         <input name="kids[0]" value="Ashley">
                     </form>
                 `,
-                expected: `{
+                    expected: `{
                     "pet":{
                         "species":"Dahut",
                         "name":"Hypatia"
@@ -139,46 +133,43 @@
                         "Ashley",
                         "Thelma"
                     ]
-                }`
-            },
-            7: {
-                desc: "Example 4 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                7: {
+                    desc: "Example 4 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="hearbeat[0]" value="thunk">
                     <input name="hearbeat[2]" value="thunk">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "hearbeat":["thunk",null,"thunk"]
-                }`
-            },
-            8: {
-                desc: "Example 4 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                8: {
+                    desc: "Example 4 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="hearbeat[0]" value="thunk">
                     <input name="hearbeat[2]" value="thunk">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "hearbeat":["thunk",null,"thunk"]
-                }`
-            },
-            9: {
-                desc: "Example 5 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                9: {
+                    desc: "Example 5 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="pet[0][species]" value="Dahut">
                     <input name="pet[0][name]" value="Hypatia">
                     <input name="pet[1][species]" value="Felis Stultus">
                     <input name="pet[1][name]" value="Billie">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "pet":[
                         {
                             "species":"Dahut",
@@ -189,20 +180,19 @@
                             "name":"Billie"
                         }
                     ]
-                }`
-            },
-            10: {
-                desc: "Example 5 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                10: {
+                    desc: "Example 5 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="pet[0][species]" value="Dahut">
                     <input name="pet[0][name]" value="Hypatia">
                     <input name="pet[1][species]" value="Felis Stultus">
                     <input name="pet[1][name]" value="Billie">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "pet":[
                         {
                             "species":"Dahut",
@@ -213,17 +203,16 @@
                             "name":"Billie"
                         }
                     ]
-                }`
-            },
-            11: {
-                desc: "Example 6 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                11: {
+                    desc: "Example 6 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="wow[such][deep][3][much][power][!]" value="Amaze">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "wow":{
                         "such":{
                             "deep":[
@@ -240,17 +229,16 @@
                             ]
                         }
                     }
-                }`
-            },
-            12: {
-                desc: "Example 6 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                12: {
+                    desc: "Example 6 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="wow[such][deep][3][much][power][!]" value="Amaze">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "wow":{
                         "such":{
                             "deep":[
@@ -267,14 +255,13 @@
                             ]
                         }
                     }
-                }`
-            },
-            13: {
-                desc: "Example 7 from specification, parse-types=true",
-                allowedToFail: true,
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                13: {
+                    desc: "Example 7 from specification, parse-types=true",
+                    allowedToFail: true,
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="mix" value="scalar">
                     <input name="mix[0]" value="array 1">
                     <input name="mix[2]" value="array 2">
@@ -282,21 +269,20 @@
                     <input name="mix[car]" value="car key">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "mix":{
                         "":"scalar",
                         "0":"array 1",
                         "2":"array 2",
                         "key":"key key",
                         "car":"car key"}
-                    }`
-            },
-            14: {
-                desc: "Example 7 from specification, parse-types=false",
-                allowedToFail: true,
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                    }`,
+                },
+                14: {
+                    desc: "Example 7 from specification, parse-types=false",
+                    allowedToFail: true,
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="mix" value="scalar">
                     <input name="mix[0]" value="array 1">
                     <input name="mix[2]" value="array 2">
@@ -304,7 +290,7 @@
                     <input name="mix[car]" value="car key">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "mix":{
                         "":"scalar",
                         "0":"array 1",
@@ -312,68 +298,62 @@
                         "key":"key key",
                         "car":"car key"
                     }
-                }`
-            },
-            15: {
-                desc: "Example 8 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                15: {
+                    desc: "Example 8 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="highlander[]" value="one">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "highlander":["one"]
-                }`
-            },
-            16: {
-                desc: "Example 8 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                16: {
+                    desc: "Example 8 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="highlander[]" value="one">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "highlander":["one"]
-                }`
-            },
-            // Example 9 is not included because it contains a file input
-            // may be included in later version (but now it makes no sense)
-            17: {
-                desc: "Example 10 from specification, parse-types=true",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="true">
+                }`,
+                },
+                // Example 9 is not included because it contains a file input
+                // may be included in later version (but now it makes no sense)
+                17: {
+                    desc: "Example 10 from specification, parse-types=true",
+                    form: `
+                <form hx-post="/" parse-types="true">
                     <input name="error[good]" value="BOOM!">
                     <input name="error[bad" value="BOOM BOOM!">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "error":{"good":"BOOM!"},
                     "error[bad":"BOOM BOOM!"
-                }`
-            },
-            18: {
-                desc: "Example 10 from specification, parse-types=false",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                18: {
+                    desc: "Example 10 from specification, parse-types=false",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input name="error[good]" value="BOOM!">
                     <input name="error[bad" value="BOOM BOOM!">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "error":{"good":"BOOM!"},
                     "error[bad":"BOOM BOOM!"
-                }`
-            },
-            19: {
-                desc: "All possible tags in form, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                19: {
+                    desc: "All possible tags in form, parse-types=true",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="true"
                 >
@@ -411,7 +391,7 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "number":15.7,
                     "text":"25",
                     "range":15,
@@ -422,14 +402,12 @@
                     "select-one-numbers":3.14,
                     "select-multiple-combined":["multiple-2","3"],
                     "select-multiple-numbers":[1,2]
-                }`
-            },
-            20: {
-                desc: "All possible tags in form, parse-types=false",
-                form:
-                `
+                }`,
+                },
+                20: {
+                    desc: "All possible tags in form, parse-types=false",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="false"
                 >
@@ -467,7 +445,7 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "number":"15.7",
                     "text":"25",
                     "range":"15",
@@ -478,13 +456,12 @@
                     "select-one-numbers":"3.14",
                     "select-multiple-combined":["multiple-2","3"],
                     "select-multiple-numbers":["1","2"]
-                }`
-            },
-            21: {
-                desc: "select[multiple] with only one option selected",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                21: {
+                    desc: "select[multiple] with only one option selected",
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <select name="select" multiple> 
                         <option value="1" selected>First</option>
                         <option value="2">Second</option>
@@ -492,58 +469,53 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select": ["1"]
-                }`
-            },
-            22: {
-                desc: "name is equal to \"values\"",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" parse-types="false">
+                }`,
+                },
+                22: {
+                    desc: 'name is equal to "values"',
+                    form: `
+                <form hx-post="/" parse-types="false">
                     <input type="text" name="values" value="abc"></input>
                     <input type="text" name="value"  value="abc"></input>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "values": "abc",
                     "value": "abc"
-                }`
-            },
-            23: {
-                desc: "multipart/form-data single file",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" hx-multipart parse-types="false">
+                }`,
+                },
+                23: {
+                    desc: "multipart/form-data single file",
+                    form: `
+                <form hx-post="/" hx-multipart hx-encoding="multipart/form-data" parse-types="false">
                     <input type="file" name="sampleFile"></input>
                     <input type="text" name="value"  value="abc"></input>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "data": { "value": "abc" },
                     "files": ["test-case-23-0.txt"]
-                }`
-            },
-            24: {
-                desc: "multipart/form-data multiple files",
-                form:
-                `
-                <form hx-ext="json-enc-custom" hx-post="/" hx-multipart parse-types="false">
+                }`,
+                },
+                24: {
+                    desc: "multipart/form-data multiple files",
+                    form: `
+                <form hx-post="/" hx-multipart hx-encoding="multipart/form-data" parse-types="false">
                     <input type="file" name="sampleFile" multiple></input>
                     <input type="text" name="value"  value="abc"></input>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "data": { "value": "abc" },
                     "files": ["test-case-24-0.txt", "test-case-24-1.txt"]
-                }`
-            },
-            25: {
-                desc: "checkboxes array, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                25: {
+                    desc: "checkboxes array, parse-types=true",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                     parse-types="true"
                 >
@@ -553,16 +525,14 @@
                     <input type="checkbox" name="array" value="el4">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": [true, false, true, false]
-                }`
-            },
-            26: {
-                desc: "checkboxes array, parse-types=false",
-                form:
-                `
+                }`,
+                },
+                26: {
+                    desc: "checkboxes array, parse-types=false",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                     parse-types="false"
                 >
@@ -572,16 +542,14 @@
                     <input type="checkbox" name="array" value="el4">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": ["el1", "el3"]
-                }`
-            },
-            27: {
-                desc: "force checkbox array, two selected",
-                form:
-                `
+                }`,
+                },
+                27: {
+                    desc: "force checkbox array, two selected",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                 >
                     <input type="checkbox" name="array[]" value="el1" checked>
@@ -590,16 +558,14 @@
                     <input type="checkbox" name="array[]" value="el4" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": ["el1", "el4"]
-                }`
-            },
-            28: {
-                desc: "force checkbox array, one selected",
-                form:
-                `
+                }`,
+                },
+                28: {
+                    desc: "force checkbox array, one selected",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                 >
                     <input type="checkbox" name="array[]" value="el1">
@@ -608,16 +574,14 @@
                     <input type="checkbox" name="array[]" value="el4" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": ["el4"]
-                }`
-            },
-            29: {
-                desc: "force checkbox array, none selected",
-                form:
-                `
+                }`,
+                },
+                29: {
+                    desc: "force checkbox array, none selected",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                 >
                     <input type="checkbox" name="array[]" value="el1">
@@ -626,16 +590,14 @@
                     <input type="checkbox" name="array[]" value="el4">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": []
-                }`
-            },
-            30: {
-                desc: "All possible tags in form, no values, parse-types=false",
-                form:
-                `
+                }`,
+                },
+                30: {
+                    desc: "All possible tags in form, no values, parse-types=false",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="false"
                 >
@@ -674,7 +636,7 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "number":"",
                     "text":"",
                     "checkbox":"off",
@@ -685,14 +647,12 @@
                     "select-one-numbers":"10",
                     "select-multiple-combined":[],
                     "select-multiple-numbers":[]
-                }`
-            },
-            31: {
-                desc: "All possible tags in form, no values, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                31: {
+                    desc: "All possible tags in form, no values, parse-types=true",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="true"
                 >
@@ -731,7 +691,7 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "number":0,
                     "text":"",
                     "checkbox":false,
@@ -742,14 +702,12 @@
                     "select-one-numbers":10,
                     "select-multiple-combined":[],
                     "select-multiple-numbers":[]
-                }`
-            },
-            32: {
-                desc: "force checkbox array, two selected, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                32: {
+                    desc: "force checkbox array, two selected, parse-types=true",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                     parse-types="true"
                 >
@@ -759,16 +717,14 @@
                     <input type="checkbox" name="array[]" value="el4" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": [true, false, false, true]
-                }`
-            },
-            33: {
-                desc: "force checkbox array, one selected, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                33: {
+                    desc: "force checkbox array, one selected, parse-types=true",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                     parse-types="true"
                 >
@@ -778,16 +734,14 @@
                     <input type="checkbox" name="array[]" value="el4" checked>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": [false, false, false, true]
-                }`
-            },
-            34: {
-                desc: "force checkbox array, none selected, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                34: {
+                    desc: "force checkbox array, none selected, parse-types=true",
+                    form: `
                 <form
-                    hx-ext="json-enc-custom"
                     hx-post="/"
                     parse-types="true"
                 >
@@ -797,17 +751,15 @@
                     <input type="checkbox" name="array[]" value="el4">
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "array": [false, false, false, false]
-                }`
-            },
-            35: {
-                desc: "select multiple array, parse-types=false",
-                allowedToFail: true,
-                form:
-                `
+                }`,
+                },
+                35: {
+                    desc: "select multiple array, parse-types=false",
+                    allowedToFail: true,
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="false"
                 >
@@ -823,17 +775,15 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select-multiple": [["1", "2"], ["2", "3"]]
-                }`
-            },
-            36: {
-                desc: "select multiple array, parse-types=true",
-                allowedToFail: true,
-                form:
-                `
+                }`,
+                },
+                36: {
+                    desc: "select multiple array, parse-types=true",
+                    allowedToFail: true,
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="true"
                 >
@@ -849,16 +799,14 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select-multiple": [[1, 2], [2, 3]]
-                }`
-            },
-            37: {
-                desc: "select array, parse-types=false",
-                form:
-                `
+                }`,
+                },
+                37: {
+                    desc: "select array, parse-types=false",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="false"
                 >
@@ -874,16 +822,14 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select": ["1", "2"]
-                }`
-            },
-            38: {
-                desc: "select array, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                38: {
+                    desc: "select array, parse-types=true",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     parse-types="true"
                 >
@@ -899,14 +845,13 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select": [1, 2]
-                }`
-            },
-            39: {
-                desc: "All possible tags in form, no values, hx-include, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                39: {
+                    desc: "All possible tags in form, no values, hx-include, parse-types=true",
+                    form: `
                 <div>
                     <form>
                         <fieldset>
@@ -945,7 +890,7 @@
                     </form>
                     <button 
                         hx-include="previous form"
-                        hx-ext="json-enc-custom" 
+                        
                         hx-post="/" 
                         hx-target="closest tr" 
                         parse-types="true"
@@ -955,7 +900,7 @@
                     </button>
                 </div>
                 `,
-                expected: `{
+                    expected: `{
                     "number":0,
                     "text":"",
                     "checkbox":false,
@@ -966,14 +911,12 @@
                     "select-one-numbers":10,
                     "select-multiple-combined":[],
                     "select-multiple-numbers":[]
-                }`
-            },
-            40: {
-                desc: "hx-vals, parse-types=true",
-                form:
-                `
+                }`,
+                },
+                40: {
+                    desc: "hx-vals, parse-types=true",
+                    form: `
                 <form 
-                    hx-ext="json-enc-custom" 
                     hx-post="/" 
                     hx-vals="js:{number: 20}"
                     parse-types="true"
@@ -990,17 +933,15 @@
                     </select>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "select": [1, 2],
                     "number": 20
-                }`
-            },
-            41: {
-                desc: "hx-vals overrides input with same name",
-                form:
-                `
+                }`,
+                },
+                41: {
+                    desc: "hx-vals overrides input with same name",
+                    form: `
                 <form 
-                    hx-ext="json-enc" 
                     hx-post="/" 
                     hx-vals="js:{number: 1}"
                     parse-types="true"
@@ -1010,32 +951,32 @@
                         </fieldset>
                 </form>
                 `,
-                expected: `{
+                    expected: `{
                     "number": 1
-                }`
-            },
-        };
+                }`,
+                },
+            };
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const isolateTestKey = urlParams.get("isolate-test");
+            const urlParams = new URLSearchParams(window.location.search);
+            const isolateTestKey = urlParams.get("isolate-test");
 
-        Object.keys(testCases).forEach(function(testCaseKey) {
-            const testCase = testCases[testCaseKey];
-            if (isolateTestKey !== null) {
-                if (testCaseKey == isolateTestKey) {
-                    testCaseKey = "1";
-                } else {
-                    return;
+            Object.keys(testCases).forEach(function (testCaseKey) {
+                const testCase = testCases[testCaseKey];
+                if (isolateTestKey !== null) {
+                    if (testCaseKey == isolateTestKey) {
+                        testCaseKey = "1";
+                    } else {
+                        return;
+                    }
                 }
-            }
-            addTestCase(
-                testCaseKey, 
-                testCase.desc, 
-                testCase.form, 
-                testCase.expected, 
-                testCase.allowedToFail,
-            );
-        });
-    </script>
-</body>
+                addTestCase(
+                    testCaseKey,
+                    testCase.desc,
+                    testCase.form,
+                    testCase.expected,
+                    testCase.allowedToFail,
+                );
+            });
+        </script>
+    </body>
 </html>
