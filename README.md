@@ -184,6 +184,36 @@ EXAMPLE 10: Bad input
 }
 ```
 
+```html
+EXAMPLE 11: empty-as-null
+By default, an empty form field is submitted as "". Set empty-as-null="true"
+on the form to send null instead of an empty string. This is useful for backend validators (e.g. Pydantic
+optional fields) that distinguish "not provided" from "provided empty".
+
+<form hx-ext='json-enc-custom' empty-as-null="true">
+  <input name='name' value=''>
+  <input name='email' value='alice@example.com'>
+</form>
+
+// Produces:
+{
+  "name":  null,
+  "email": "alice@example.com"
+}
+// Without empty-as-null (default):
+{
+  "name":  "",
+  "email": "alice@example.com"
+}
+
+NOTES:
+- Applies to both scalar values and array elements (["", "x"] -> [null, "x"]).
+- Unchecked checkboxes ("off") and empty arrays ([] from unselected
+  <select multiple>) are unaffected.
+- Combine with parse-types="true" if needed: empty-as-null runs first, so an
+  empty <input type="number"> becomes null instead of 0.
+```
+
 ## Testing
 
 To run the tests, simply open `test.html` in your browser or run the `make test` command in your terminal.
