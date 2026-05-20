@@ -12,7 +12,7 @@
  * @returns *|string|null
  * 
  * @typedef encodingAlgorithm
- * Merge form data and hx-include data and encode to a JSON string. Apply type parsing if requested.
+ * Merge form data and hx-include data and encode to a JSON string. Apply type parsing if requested. Apply empty-string-to-null conversion if requested.
  * @param {FormData} parameters Raw form data as provided by the user
  * @param {Node} elt Node that owns the request
  * @param {NodeList} includedElt Other elements that shall be considered for this request (hx-include)
