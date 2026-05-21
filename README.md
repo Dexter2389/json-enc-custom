@@ -10,7 +10,7 @@ Reference: [W3C HTML JSON form submission](https://www.w3.org/TR/html-json-forms
 ```html
 <script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@main/json-enc-custom.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.7/json-enc-custom.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.8/json-enc-custom.js"></script>
 ```
 
 #### Minified (roughly half the size)
@@ -18,7 +18,7 @@ Reference: [W3C HTML JSON form submission](https://www.w3.org/TR/html-json-forms
 ```html
 <script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@main/jec.min.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.7/jec.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.1.8/jec.min.js"></script>
 ```
 
 ## Examples
