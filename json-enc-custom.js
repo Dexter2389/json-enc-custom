@@ -44,6 +44,7 @@
         let resultingObject = Object.create(null);
 
         const parseTypes = api.attributeValue(elt, "parse-types") === "true";
+        const emptyAsNull = api.attributeValue(elt, "empty-as-null") === "true";
 
         let includedElt = getIncludedElement(elt);
         let names;
@@ -90,6 +91,10 @@
             const elements = getChildrenByName(elt, includedElt, name);
             value = prepareInputValueWithElements(value, elements);
 
+            if (emptyAsNull) {
+                value = convertEmptyToNull(value);
+            }
+
             if (parseTypes) {
                 value = parseValues(elements, includedElt, value);
             }
@@ -99,7 +104,7 @@
 
             for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
                 const step = steps[stepIndex];
-                context = setValueFromPath(context, step, value);
+                context = setValueFromPath(context, step, value, emptyAsNull);
             }
         }
 
@@ -122,6 +127,14 @@
         }
         if (value.length === 1) {
             return value[0];
+        }
+        return value;
+    }
+
+    function convertEmptyToNull(value) {
+        if (value === "") return null;
+        if (Array.isArray(value)) {
+            return value.map(v => (v === "" ? null : v));
         }
         return value;
     }
@@ -201,7 +214,10 @@
             }
         }
 
-        if (!Array.isArray(value)) return parseElementValue(elements[0], value);
+        if (!Array.isArray(value)) {
+            if (value === null) return null;
+            return parseElementValue(elements[0], value);
+        }
 
         if (isSelectMultiple(elements)) {
             const elt = elements[0];
@@ -223,6 +239,7 @@
             }
         } else {
             for (let index = 0; index < value.length; index++) {
+                if (value[index] === null) continue;
                 let array_elt = elements[index];
                 let array_value = value[index];
                 value[index] = parseElementValue(array_elt, array_value);
@@ -346,7 +363,7 @@
         return steps;
     }
 
-    function setValueFromPath(context, step, value) {
+    function setValueFromPath(context, step, value, emptyAsNull) {
         if (step.last) {
             if (step.key === null) {
                 if (value === null) {
@@ -362,7 +379,7 @@
                     }
                 }
                 return context;
-            } else if (value !== null) {
+            } else if (value !== null || emptyAsNull) {
                 context[step.key] = value;
                 return context[step.key];
             }

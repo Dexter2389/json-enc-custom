@@ -13,7 +13,7 @@ Reference: [W3C HTML JSON form submission](https://www.w3.org/TR/html-json-forms
 ```html
 <script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@htmx-v4/json-enc-custom.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.0/json-enc-custom.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.2/json-enc-custom.js"></script>
 ```
 
 #### Minified (roughly half the size)
@@ -21,7 +21,7 @@ Reference: [W3C HTML JSON form submission](https://www.w3.org/TR/html-json-forms
 ```html
 <script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@htmx-v4/jec.min.js"></script>
 <!-- Pointing to release (More production-safe) -->
-<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.0/jec.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@v0.2.2/jec.min.js"></script>
 ```
 
 ## Examples
@@ -185,6 +185,36 @@ EXAMPLE 10: Bad input
     },
     "error[bad":  "BOOM BOOM!"
 }
+```
+
+```html
+EXAMPLE 11: empty-as-null
+By default, an empty form field is submitted as "". Set empty-as-null="true"
+on the form to send null instead of an empty string. This is useful for backend validators (e.g. Pydantic
+optional fields) that distinguish "not provided" from "provided empty".
+
+<form hx-ext='json-enc-custom' empty-as-null="true">
+  <input name='name' value=''>
+  <input name='email' value='alice@example.com'>
+</form>
+
+// Produces:
+{
+  "name":  null,
+  "email": "alice@example.com"
+}
+// Without empty-as-null (default):
+{
+  "name":  "",
+  "email": "alice@example.com"
+}
+
+NOTES:
+- Applies to both scalar values and array elements (["", "x"] -> [null, "x"]).
+- Unchecked checkboxes ("off") and empty arrays ([] from unselected
+  <select multiple>) are unaffected.
+- Combine with parse-types="true" if needed: empty-as-null runs first, so an
+  empty <input type="number"> becomes null instead of 0.
 ```
 
 ## Testing
